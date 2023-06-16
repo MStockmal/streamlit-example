@@ -37,7 +37,7 @@ def generate_response(input_text):
     chain = load_qa_chain(llm, chain_type="stuff")
     st.info(chain.run(input_documents=docs, question=input_text))
     chain = load_summarize_chain(llm, chain_type="map_reduce")
-    chain.run(docs)
+    st.info(chain.run(docs))
     for i, d in enumerate(docs):
         st.info(f"\n## Document {i}\n")
         st.info(d.page_content)
