@@ -5,3 +5,4 @@ google-search-results
 anthropic
 streamlit-chat
 pinecone-client
+tiktoken
