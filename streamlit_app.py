@@ -4,7 +4,7 @@ from langchain import OpenAI
 from langchain.vectorstores import Chroma, Pinecone
 from langchain.embeddings.openai import OpenAIEmbeddings
 import pinecone
-# OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
+OPENAI_API_KEY = 'nokey'
 PINECONE_API_ENV = st.secrets["PINECONE_API_ENV"]
 PINECONE_API_KEY = st.secrets["PINECONE_API_KEY"]
 embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
