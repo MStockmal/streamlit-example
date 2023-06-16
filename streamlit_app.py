@@ -1,38 +1,37 @@
-from collections import namedtuple
-import altair as alt
-import math
-import pandas as pd
+import openai
 import streamlit as st
+from streamlit_chat import message
 
-"""
-# Welcome to Streamlit!
+with st.sidebar:
+    openai_api_key = st.text_input('OpenAI API Key',key='chatbot_api_key')
+    "[View the source code](https://github.com/streamlit/llm-examples/blob/main/Chatbot.py)"
+    "[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/streamlit/llm-examples?quickstart=1)"
 
-Edit `/streamlit_app.py` to customize this app to your heart's desire :heart:
+st.title("💬 Streamlit GPT")
+#openai.api_key = st.secrets.openai_api_key
+if "messages" not in st.session_state:
+    st.session_state["messages"] = [{"role": "assistant", "content": "How can I help you?"}]
 
-If you have any questions, checkout our [documentation](https://docs.streamlit.io) and [community
-forums](https://discuss.streamlit.io).
+with st.form("chat_input", clear_on_submit=True):
+    a, b = st.columns([4, 1])
+    user_input = a.text_input(
+        label="Your message:",
+        placeholder="What would you like to say?",
+        label_visibility="collapsed",
+    )
+    b.form_submit_button("Send", use_container_width=True)
 
-In the meantime, below is an example of what you can do with just a few lines of code:
-"""
+for msg in st.session_state.messages:
+    message(msg["content"], is_user=msg["role"] == "user")
 
-
-with st.echo(code_location='below'):
-    total_points = st.slider("Number of points in spiral", 1, 5000, 2000)
-    num_turns = st.slider("Number of turns in spiral", 1, 100, 9)
-
-    Point = namedtuple('Point', 'x y')
-    data = []
-
-    points_per_turn = total_points / num_turns
-
-    for curr_point_num in range(total_points):
-        curr_turn, i = divmod(curr_point_num, points_per_turn)
-        angle = (curr_turn + 1) * 2 * math.pi * i / points_per_turn
-        radius = curr_point_num / total_points
-        x = radius * math.cos(angle)
-        y = radius * math.sin(angle)
-        data.append(Point(x, y))
-
-    st.altair_chart(alt.Chart(pd.DataFrame(data), height=500, width=500)
-        .mark_circle(color='#0068c9', opacity=0.5)
-        .encode(x='x:Q', y='y:Q'))
+if user_input and not openai_api_key:
+    st.info("Please add your OpenAI API key to continue.")
+    
+if user_input and openai_api_key:
+    openai.api_key = openai_api_key
+    st.session_state.messages.append({"role": "user", "content": user_input})
+    message(user_input, is_user=True)
+    response = openai.ChatCompletion.create(model="gpt-3.5-turbo", messages=st.session_state.messages)
+    msg = response.choices[0].message
+    st.session_state.messages.append(msg)
+    message(msg.content)
