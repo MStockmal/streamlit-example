@@ -14,7 +14,6 @@ pinecone.init(
     environment=PINECONE_API_ENV  # next to api key in console
 )
 index_name = "hinsdale-doings-try1" # put in the name of your pinecone index here
-docsearch = Pinecone.from_existing_index(index_name, embeddings)
 from langchain.llms import OpenAI
 from langchain.chains.question_answering import load_qa_chain
 query = "Who was William Robbins? Please write 3 paragraphs explaining his impact on the development of Hinsdale"
@@ -32,6 +31,7 @@ with st.sidebar:
 def generate_response(input_text):
     llm = OpenAI(temperature=0, openai_api_key=OPENAI_API_KEY)
     embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
+    docsearch = Pinecone.from_existing_index(index_name, embeddings)
     chain = load_qa_chain(llm, chain_type="stuff")
     docs = docsearch.similarity_search(input_text)
     chain.run(input_documents=docs, question=input_text)   
