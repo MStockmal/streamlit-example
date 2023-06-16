@@ -26,17 +26,19 @@ query = "Who was William Robbins? Please write 3 paragraphs explaining his impac
 
 
 
-st.title('🦜🔗 Langchain Quickstart App')
+st.title('Hinsdale History Helper')
 
-with st.sidebar:
-   openai_api_key = st.text_input('OpenAI API Key')
+# with st.sidebar:
+#    openai_api_key = st.text_input('OpenAI API Key')
 
 def generate_response(input_text):
-  llm = OpenAI(temperature=0.7, openai_api_key=openai_api_key)
-  st.info(llm(input_text))
+ docs = docsearch.similarity_search(input_text)
+ chain.run(input_documents=docs, question=input_text)   
+  # llm = OpenAI(temperature=0.7, openai_api_key=openai_api_key)
+  # st.info(llm(input_text))
 
 with st.form('my_form'):
-  text = st.text_area('Enter text:', 'What are 3 key advice for learning how to code?')
+  text = st.text_area('Ask a Hinsdale hisotry question:', 'Who was William Robbins? Explain his impact on the development of Hinsdale')
   submitted = st.form_submit_button('Submit')
   if submitted:
     generate_response(text)
