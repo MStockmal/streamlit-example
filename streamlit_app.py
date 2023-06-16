@@ -36,8 +36,8 @@ def generate_response(input_text):
     docs = docsearch.similarity_search(input_text, k=10)
     chain = load_qa_chain(llm, chain_type="stuff")
     st.info(chain.run(input_documents=docs, question=input_text))
-    chain = load_summarize_chain(llm, chain_type="map_reduce")
-    st.info(chain.run(docs))
+    # chain = load_summarize_chain(llm, chain_type="map_reduce")
+    # st.info(chain.run(docs))
     for i, d in enumerate(docs):
         st.info(f"\n## Document {i}\n")
         st.info(d.page_content)
