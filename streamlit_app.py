@@ -37,7 +37,7 @@ def generate_response(input_text):
     st.info(chain.run(input_documents=docs, question=input_text))
     for i, d in docs:
         st.info(f"\n## Document {i}\n")
-        st.info(d.page_content))
+        st.info(d.page_content)
 
 
 with st.form('my_form'):
