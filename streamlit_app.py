@@ -3,6 +3,7 @@ from langchain import OpenAI
 
 from langchain.vectorstores import Chroma, Pinecone
 from langchain.embeddings.openai import OpenAIEmbeddings
+from langchain.chains.summarize import load_summarize_chain
 import pinecone
 OPENAI_API_KEY = 'nokey'
 PINECONE_API_ENV = st.secrets["PINECONE_API_ENV"]
@@ -32,9 +33,11 @@ def generate_response(input_text):
     llm = OpenAI(temperature=0, openai_api_key=OPENAI_API_KEY)
     embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
     docsearch = Pinecone.from_existing_index(index_name, embeddings)
+    docs = docsearch.similarity_search(input_text)
     chain = load_qa_chain(llm, chain_type="stuff")
-    docs = docsearch.similarity_search(input_text)   
     st.info(chain.run(input_documents=docs, question=input_text))
+    chain = load_summarize_chain(llm, chain_type="map_reduce")
+    chain.run(docs)
     for i, d in enumerate(docs):
         st.info(f"\n## Document {i}\n")
         st.info(d.page_content)
