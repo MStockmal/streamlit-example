@@ -17,7 +17,7 @@ docsearch = Pinecone.from_texts([t.page_content for t in texts], embeddings, ind
 from langchain.llms import OpenAI
 from langchain.chains.question_answering import load_qa_chain
 llm = OpenAI(temperature=0, openai_api_key=OPENAI_API_KEY)
-chain = load_qa_chain(llm, chain_type="refine")
+chain = load_qa_chain(llm, chain_type="stuff")
 query = "Who was William Robbins? Please write 3 paragraphs explaining his impact on the development of Hinsdale"
 docs = docsearch.similarity_search(query)
 # chain.run(input_documents=docs, question=query)
