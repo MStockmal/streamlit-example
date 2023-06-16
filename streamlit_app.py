@@ -33,10 +33,8 @@ def generate_response(input_text):
     embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
     docsearch = Pinecone.from_existing_index(index_name, embeddings)
     chain = load_qa_chain(llm, chain_type="stuff")
-    docs = docsearch.similarity_search(input_text)
-    chain.run(input_documents=docs, question=input_text)   
-  # llm = OpenAI(temperature=0.7, openai_api_key=openai_api_key)
-  # st.info(llm(input_text))
+    docs = docsearch.similarity_search(input_text)   
+    st.info(chain.run(input_documents=docs, question=input_text))
 
 with st.form('my_form'):
   text = st.text_area('Ask a Hinsdale hisotry question:', 'Who was William Robbins? Explain his impact on the development of Hinsdale')
