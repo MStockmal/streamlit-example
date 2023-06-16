@@ -1,3 +1,6 @@
+pip install langchain --upgrade
+pip3 install pinecone-client
+
 from langchain.vectorstores import Chroma, Pinecone
 from langchain.embeddings.openai import OpenAIEmbeddings
 import pinecone
