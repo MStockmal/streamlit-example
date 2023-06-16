@@ -35,9 +35,10 @@ def generate_response(input_text):
     chain = load_qa_chain(llm, chain_type="stuff")
     docs = docsearch.similarity_search(input_text)   
     st.info(chain.run(input_documents=docs, question=input_text))
-for i, d in enumerate(docs):
-    st.info(f"\n## Document {i}\n")
-    st.info(d.page_content)
+    for i, d in docs:
+        st.info(f"\n## Document {i}\n")
+        st.info(d.page_content))
+
 
 with st.form('my_form'):
   text = st.text_area('Ask a Hinsdale hisotry question:', 'Who was William Robbins? Explain his impact on the development of Hinsdale')
