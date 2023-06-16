@@ -4,7 +4,7 @@ from langchain import OpenAI
 from langchain.vectorstores import Chroma, Pinecone
 from langchain.embeddings.openai import OpenAIEmbeddings
 import pinecone
-OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
+# OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
 PINECONE_API_ENV = st.secrets["PINECONE_API_ENV"]
 PINECONE_API_KEY = st.secrets["PINECONE_API_KEY"]
 embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
@@ -28,8 +28,8 @@ query = "Who was William Robbins? Please write 3 paragraphs explaining his impac
 
 st.title('Hinsdale History Helper')
 
-# with st.sidebar:
-#    openai_api_key = st.text_input('OpenAI API Key')
+with st.sidebar:
+   OPENAI_API_KEY = st.text_input('OpenAI API Key')
 
 def generate_response(input_text):
  docs = docsearch.similarity_search(input_text)
