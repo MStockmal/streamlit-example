@@ -32,7 +32,7 @@ def generate_response(input_text):
     llm = OpenAI(temperature=0, openai_api_key=OPENAI_API_KEY)
     embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
     docsearch = Pinecone.from_existing_index(index_name, embeddings)
-    chain = load_qa_chain(llm, chain_type="stuff")
+    chain = load_qa_chain(llm, chain_type="refine")
     docs = docsearch.similarity_search(input_text)   
     st.info(chain.run(input_documents=docs, question=input_text))
     for i, d in enumerate(docs):
