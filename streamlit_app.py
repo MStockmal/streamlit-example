@@ -34,7 +34,7 @@ def generate_response(input_text):
     embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
     docsearch = Pinecone.from_existing_index(index_name, embeddings)
     docs = docsearch.similarity_search(input_text, k=10)
-    chain = load_qa_chain(llm, chain_type="stuff")
+    chain = load_qa_chain(llm, chain_type="stuff", k=10)
     st.info(chain.run(input_documents=docs, question=input_text))
     # chain = load_summarize_chain(llm, chain_type="map_reduce")
     # st.info(chain.run(docs))
