@@ -4,9 +4,7 @@ from langchain import OpenAI
 from langchain.vectorstores import Chroma, Pinecone
 from langchain.embeddings.openai import OpenAIEmbeddings
 import pinecone
-OPENAI_API_KEY = "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"
-PINECONE_API_KEY = '2f8ad2cb-9fc5-41b3-bd63-b568bd67a013'
-PINECONE_API_ENV = 'us-west4-gcp-free'
+
 embeddings = OpenAIEmbeddings(openai_api_key=OPENAI_API_KEY)
 # initialize pinecone
 pinecone.init(
@@ -29,7 +27,7 @@ docs = docsearch.similarity_search(query)
 st.title('🦜🔗 Langchain Quickstart App')
 
 with st.sidebar:
-  openai_api_key = st.text_input('OpenAI API Key')
+   openai_api_key = st.text_input('OpenAI API Key')
 
 def generate_response(input_text):
   llm = OpenAI(temperature=0.7, openai_api_key=openai_api_key)
