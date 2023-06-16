@@ -1,4 +1,5 @@
-
+import streamlit as st
+from langchain import OpenAI
 
 from langchain.vectorstores import Chroma, Pinecone
 from langchain.embeddings.openai import OpenAIEmbeddings
@@ -23,8 +24,7 @@ docs = docsearch.similarity_search(query)
 # chain.run(input_documents=docs, question=query)
 
 
-import streamlit as st
-from langchain import OpenAI
+
 
 st.title('🦜🔗 Langchain Quickstart App')
 
